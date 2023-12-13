@@ -16,7 +16,9 @@ class InputValidator {
         require(toIntOrNull() != null) { "숫자만 입력해 주세요." }
 
     private fun Int.validateBridgeRange() =
-        require(this in BRIDGE_RANGE) { "3 이상 20 이하의 숫자만 입력해 주세요." }
+        require(this in BRIDGE_RANGE) {
+            "$BRIDGE_MIN_SIZE 이상 $BRIDGE_MAX_SIZE 이하의 숫자만 입력해 주세요."
+        }
 
     fun validateMoving(moving: String) =
         require(moving == MOVING_UP.value || moving == MOVING_DOWN.value) {
@@ -29,6 +31,8 @@ class InputValidator {
         }
 
     companion object {
-        private val BRIDGE_RANGE = 3..20
+        private val BRIDGE_MIN_SIZE = 3
+        private val BRIDGE_MAX_SIZE = 20
+        private val BRIDGE_RANGE = BRIDGE_MIN_SIZE..BRIDGE_MAX_SIZE
     }
 }

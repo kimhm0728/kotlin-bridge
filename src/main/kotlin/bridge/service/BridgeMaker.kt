@@ -16,7 +16,11 @@ class BridgeMaker(private val bridgeNumberGenerator: BridgeNumberGenerator) {
 
     private fun makeBridgeShape() =
         bridgeNumberGenerator.generate().let { generateValue ->
-            if (generateValue == 0) MOVING_DOWN.value
+            if (generateValue == DOWN_VALUE) MOVING_DOWN.value
             else MOVING_UP.value
         }
+
+    companion object {
+        private const val DOWN_VALUE = 0
+    }
 }
