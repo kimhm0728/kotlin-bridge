@@ -4,6 +4,7 @@ import bridge.constants.Constants.GAME_COMMAND_RETRY
 import bridge.constants.Constants.MOVING_UP
 import bridge.io.OutputView
 import bridge.io.input.InputView
+import bridge.model.BridgeGameResult
 import bridge.model.MovingResult
 import bridge.util.retryWhileNoException
 
@@ -17,17 +18,23 @@ class BridgeGame(private val upResult: MovingResult, private val downResult: Mov
         downResult.clear()
     }
 
-    fun start(bridge: List<String>): Pair<MovingResult, MovingResult> {
+    fun start(bridge: List<String>): BridgeGameResult {
         clear()
+        var isSuccess = true
+        var tryCount = 1
+
         while (!startGame(bridge)) {
             if (retry()) {
+                tryCount++
                 clear()
                 continue
             }
-            return upResult to downResult
+
+            isSuccess = false
+            break
         }
 
-        return upResult to downResult
+        return BridgeGameResult(upResult, downResult, isSuccess, tryCount)
     }
 
     private fun startGame(bridge: List<String>): Boolean {
