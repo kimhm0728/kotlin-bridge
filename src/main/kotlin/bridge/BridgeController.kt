@@ -1,6 +1,6 @@
 package bridge
 
-import bridge.io.OutputView
+import bridge.io.output.OutputView
 import bridge.io.input.InputView
 import bridge.model.Bridge
 import bridge.service.BridgeGame

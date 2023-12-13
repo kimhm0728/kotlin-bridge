@@ -1,4 +1,4 @@
-package bridge.io
+package bridge.io.output
 
 import bridge.model.BridgeGameResult
 
