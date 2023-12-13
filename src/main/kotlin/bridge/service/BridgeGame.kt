@@ -30,8 +30,10 @@ class BridgeGame {
 
     fun retry(gameCommand: String) = isRetry(gameCommand).also { isRetry ->
         isSuccess = isRetry
-        tryCount++
-        if (isRetry) clear()
+        if (isRetry) {
+            clear()
+            tryCount++
+        }
     }
 
     private fun isRetry(gameCommand: String) =
