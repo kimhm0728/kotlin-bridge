@@ -14,11 +14,6 @@ class BridgeGame {
 
     fun getResult() = BridgeGameResult(up, down, isSuccess, tryCount)
 
-    private fun clear() {
-        up.clear()
-        down.clear()
-    }
-
     fun move(isMoving: Boolean, moving: String) {
         val result = if (isMoving) "O" else "X"
         if (isMovingUp(moving)) {
@@ -41,4 +36,9 @@ class BridgeGame {
 
     private fun isRetry(gameCommand: String) =
         gameCommand == GAME_COMMAND_RETRY.value
+
+    private fun clear() {
+        up.clear()
+        down.clear()
+    }
 }
