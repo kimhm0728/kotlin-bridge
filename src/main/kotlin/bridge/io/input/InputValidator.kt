@@ -31,8 +31,8 @@ class InputValidator {
         }
 
     companion object {
-        private val BRIDGE_MIN_SIZE = 3
-        private val BRIDGE_MAX_SIZE = 20
+        private const val BRIDGE_MIN_SIZE = 3
+        private const val BRIDGE_MAX_SIZE = 20
         private val BRIDGE_RANGE = BRIDGE_MIN_SIZE..BRIDGE_MAX_SIZE
     }
 }

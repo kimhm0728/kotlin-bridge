@@ -15,15 +15,15 @@ class BridgeController(private val inputView: InputView, private val outputView:
 
     init {
         outputView.printStart()
-        bridgeSize = composeBridgeSize()
-        bridge = composeBridge(bridgeSize)
+        bridgeSize = inputBridgeSize()
+        bridge = makeBridge(bridgeSize)
     }
 
-    private fun composeBridgeSize() = retryWhileNoException {
+    private fun inputBridgeSize() = retryWhileNoException {
         inputView.readBridgeSize()
     }
 
-    private fun composeBridge(bridgeSize: Int): Bridge {
+    private fun makeBridge(bridgeSize: Int): Bridge {
         val bridgeMaker = BridgeMaker(BridgeRandomNumberGenerator())
         return bridgeMaker.makeBridge(bridgeSize).toBridge()
     }
@@ -32,28 +32,32 @@ class BridgeController(private val inputView: InputView, private val outputView:
 
     fun run() {
         val bridgeGame = BridgeGame()
-
-        while (!progressGame(bridgeGame)) {
-            val gameCommand = retryWhileNoException { inputView.readGameCommand() }
-            if (bridgeGame.retry(gameCommand)) continue
-            break
-        }
-
-        val bridgeGameResult = bridgeGame.getResult()
-        outputView.printResult(bridgeGameResult)
+        bridgeGame.start()
+        outputView.printResult(bridgeGame.getResult())
     }
 
-    private fun progressGame(bridgeGame: BridgeGame): Boolean {
+    private fun BridgeGame.start() {
+        while (!progressGame()) {
+            val gameCommand = inputGameCommand()
+            if (retry(gameCommand)) continue
+            break
+        }
+    }
+
+    private fun BridgeGame.progressGame(): Boolean {
         for (idx in 0 until bridgeSize) {
-            val moving = retryWhileNoException { inputView.readMoving() }
+            val moving = inputMoving()
 
             val isMoving = bridge.isMoving(idx, moving)
-            bridgeGame.move(isMoving, moving)
-            outputView.printMap(bridgeGame.getResult())
+            move(isMoving, moving)
+            outputView.printMap(getResult())
 
             if (!isMoving) return false
         }
-
         return true
     }
+
+    private fun inputGameCommand() = retryWhileNoException { inputView.readGameCommand() }
+
+    private fun inputMoving() = retryWhileNoException { inputView.readMoving() }
 }
