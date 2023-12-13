@@ -15,12 +15,12 @@ class InputView {
         return inputBridgeSize.toInt()
     }
 
-    fun readMoving(): String {
+    fun readMoving(): Char {
         println("이동할 칸을 선택해주세요. (위: U, 아래: D)")
         val moving = Console.readLine()
 
         validator.validateMoving(moving)
-        return moving
+        return moving[0]
     }
 
     fun readGameCommand(): Char {
