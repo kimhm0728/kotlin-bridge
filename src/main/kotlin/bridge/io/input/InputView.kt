@@ -1,14 +1,18 @@
-package bridge.io
+package bridge.io.input
 
-/**
- * 사용자로부터 입력을 받는 역할을 한다.
- */
+import camp.nextstep.edu.missionutils.Console
+
 class InputView {
-    /**
-     * 다리의 길이를 입력받는다.
-     */
+
+    private val validator = InputValidator()
+
     fun readBridgeSize(): Int {
-        return 0
+        println("다리의 길이를 입력해주세요.")
+        val inputBridgeSize = Console.readLine()
+        println()
+
+        validator.validateBridgeSize(inputBridgeSize)
+        return inputBridgeSize.toInt()
     }
 
     /**
