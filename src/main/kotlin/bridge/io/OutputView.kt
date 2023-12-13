@@ -10,15 +10,15 @@ class OutputView {
         lineBreak()
     }
 
-    fun printMap(upResult: MovingResult, downResult: MovingResult) {
-        println(upResult)
-        println(downResult)
+    fun printMap(movingResults: Pair<MovingResult, MovingResult>) {
+        println(movingResults.first)
+        println(movingResults.second)
         lineBreak()
     }
 
     fun printResult(bridgeGameResult: BridgeGameResult) {
         println("최종 게임 결과")
-        printMap(bridgeGameResult.upResult, bridgeGameResult.downResult)
+        printMap(bridgeGameResult.upResult to bridgeGameResult.downResult)
         printSuccess(bridgeGameResult)
         println("총 시도한 횟수: ${bridgeGameResult.tryCount}")
     }

@@ -14,10 +14,9 @@ class BridgeMaker(private val bridgeNumberGenerator: BridgeNumberGenerator) {
         return bridge.toList()
     }
 
-    private fun makeBridgeShape(): String {
-        bridgeNumberGenerator.generate().run {
-            if (this == 0) return MOVING_DOWN.value
+    private fun makeBridgeShape() =
+        bridgeNumberGenerator.generate().let { generateValue ->
+            if (generateValue == 0) MOVING_DOWN.value
+            else MOVING_UP.value
         }
-        return MOVING_UP.value
-    }
 }

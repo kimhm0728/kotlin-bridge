@@ -2,80 +2,41 @@ package bridge.service
 
 import bridge.constants.Constants.GAME_COMMAND_RETRY
 import bridge.constants.Constants.MOVING_UP
-import bridge.io.OutputView
-import bridge.io.input.InputView
 import bridge.model.BridgeGameResult
 import bridge.model.MovingResult
-import bridge.util.retryWhileNoException
 
-class BridgeGame(private val upResult: MovingResult, private val downResult: MovingResult) {
+class BridgeGame {
 
-    private val inputView = InputView()
-    private val outputView = OutputView()
+    private val upResult = MovingResult()
+    private val downResult = MovingResult()
+    private var isSuccess = true
+    private var tryCount = 1
+
+    fun getRoundResult() = upResult to downResult
+
+    fun getGameResult() = BridgeGameResult(upResult, downResult, isSuccess, tryCount)
 
     private fun clear() {
         upResult.clear()
         downResult.clear()
     }
 
-    fun start(bridge: List<String>): BridgeGameResult {
-        clear()
-        var isSuccess = true
-        var tryCount = 1
-
-        while (!startGame(bridge)) {
-            if (retry()) {
-                tryCount++
-                clear()
-                continue
-            }
-
-            isSuccess = false
-            break
-        }
-
-        return BridgeGameResult(upResult, downResult, isSuccess, tryCount)
-    }
-
-    private fun startGame(bridge: List<String>): Boolean {
-        bridge.forEach { bridgeShape ->
-            val moving = move()
-            val result = moveResult(bridgeShape, moving)
-            outputView.printMap(upResult, downResult)
-            if (!result) return false
-        }
-        return true
-    }
-
-    private fun moveResult(bridgeShape: String, moving: String): Boolean {
+    fun move(isMoving: Boolean, moving: String) {
+        val result = if (isMoving) "O" else "X"
         if (moving == MOVING_UP.value) {
+            upResult.add(result)
             downResult.add(" ")
-            if (bridgeShape != moving) {
-                upResult.add("X")
-                return false
-            }
-            upResult.add("O")
-            return true
+            return
         }
 
+        downResult.add(result)
         upResult.add(" ")
-        if (bridgeShape != moving) {
-            downResult.add("X")
-            return false
+    }
+
+    fun retry(gameCommand: String) =
+        (gameCommand == GAME_COMMAND_RETRY.value).also { isRetry ->
+            isSuccess = isRetry
+            tryCount++
+            if (isRetry) clear()
         }
-        downResult.add("O")
-        return true
-    }
-
-    fun move() = retryWhileNoException {
-        inputView.readMoving()
-    }
-
-    fun retry(): Boolean {
-        val gameCommand = retryWhileNoException {
-            inputView.readGameCommand()
-        }
-
-        return gameCommand == GAME_COMMAND_RETRY.value
-    }
 }
