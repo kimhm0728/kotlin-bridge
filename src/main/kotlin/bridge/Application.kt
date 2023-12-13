@@ -1,5 +1,12 @@
 package bridge
 
+import bridge.io.OutputView
+import bridge.io.input.InputView
+
 fun main() {
-    // TODO: 프로그램 구현
+    val inputView = InputView()
+    val outputView = OutputView()
+    val bridgeController = BridgeController(inputView, outputView)
+
+    bridgeController.run()
 }
