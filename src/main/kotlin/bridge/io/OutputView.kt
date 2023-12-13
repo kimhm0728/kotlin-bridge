@@ -1,7 +1,6 @@
 package bridge.io
 
 import bridge.model.BridgeGameResult
-import bridge.model.MovingResult
 
 class OutputView {
 
@@ -10,15 +9,15 @@ class OutputView {
         lineBreak()
     }
 
-    fun printMap(movingResults: Pair<MovingResult, MovingResult>) {
-        println(movingResults.first)
-        println(movingResults.second)
+    fun printMap(bridgeGameResult: BridgeGameResult) {
+        println(bridgeGameResult.up)
+        println(bridgeGameResult.down)
         lineBreak()
     }
 
     fun printResult(bridgeGameResult: BridgeGameResult) {
         println("최종 게임 결과")
-        printMap(bridgeGameResult.upResult to bridgeGameResult.downResult)
+        printMap(bridgeGameResult)
         printSuccess(bridgeGameResult)
         println("총 시도한 횟수: ${bridgeGameResult.tryCount}")
     }

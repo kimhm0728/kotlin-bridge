@@ -1,8 +1,8 @@
 package bridge.model
 
 class BridgeGameResult(
-    val upResult: MovingResult,
-    val downResult: MovingResult,
+    val up: MovingResult,
+    val down: MovingResult,
     val isSuccess: Boolean,
     val tryCount: Int
 )

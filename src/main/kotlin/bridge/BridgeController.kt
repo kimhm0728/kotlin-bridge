@@ -39,7 +39,7 @@ class BridgeController(private val inputView: InputView, private val outputView:
             break
         }
 
-        val bridgeGameResult = bridgeGame.getGameResult()
+        val bridgeGameResult = bridgeGame.getResult()
         outputView.printResult(bridgeGameResult)
     }
 
@@ -49,10 +49,11 @@ class BridgeController(private val inputView: InputView, private val outputView:
 
             val isMoving = bridge.isMoving(idx, moving)
             bridgeGame.move(isMoving, moving)
-            outputView.printMap(bridgeGame.getRoundResult())
+            outputView.printMap(bridgeGame.getResult())
 
             if (!isMoving) return false
         }
+
         return true
     }
 }

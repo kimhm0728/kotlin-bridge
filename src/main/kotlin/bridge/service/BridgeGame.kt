@@ -7,36 +7,38 @@ import bridge.model.MovingResult
 
 class BridgeGame {
 
-    private val upResult = MovingResult()
-    private val downResult = MovingResult()
+    private val up = MovingResult()
+    private val down = MovingResult()
     private var isSuccess = true
     private var tryCount = 1
 
-    fun getRoundResult() = upResult to downResult
-
-    fun getGameResult() = BridgeGameResult(upResult, downResult, isSuccess, tryCount)
+    fun getResult() = BridgeGameResult(up, down, isSuccess, tryCount)
 
     private fun clear() {
-        upResult.clear()
-        downResult.clear()
+        up.clear()
+        down.clear()
     }
 
     fun move(isMoving: Boolean, moving: String) {
         val result = if (isMoving) "O" else "X"
-        if (moving == MOVING_UP.value) {
-            upResult.add(result)
-            downResult.add(" ")
+        if (isMovingUp(moving)) {
+            up.add(result)
+            down.add(" ")
             return
         }
 
-        downResult.add(result)
-        upResult.add(" ")
+        down.add(result)
+        up.add(" ")
     }
 
-    fun retry(gameCommand: String) =
-        (gameCommand == GAME_COMMAND_RETRY.value).also { isRetry ->
-            isSuccess = isRetry
-            tryCount++
-            if (isRetry) clear()
-        }
+    private fun isMovingUp(moving: String) = moving == MOVING_UP.value
+
+    fun retry(gameCommand: String) = isRetry(gameCommand).also { isRetry ->
+        isSuccess = isRetry
+        tryCount++
+        if (isRetry) clear()
+    }
+
+    private fun isRetry(gameCommand: String) =
+        gameCommand == GAME_COMMAND_RETRY.value
 }
