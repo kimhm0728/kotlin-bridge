@@ -18,24 +18,15 @@ class InputValidator {
     private fun Int.validateBridgeRange() =
         require(this in BRIDGE_RANGE) { "3 이상 20 이하의 숫자만 입력해 주세요." }
 
-    fun validateMoving(moving: String) {
-        moving.validateLength()
-        moving[0].validateMoving()
-    }
+    fun validateMoving(moving: String) =
+        require(moving == MOVING_UP.value || moving == MOVING_DOWN.value) {
+            "U와 D 중 하나의 문자를 입력해 주세요."
+        }
 
-    private fun String.validateLength() =
-        require(length == 1) { "하나의 문자만 입력해 주세요." }
-
-    private fun Char.validateMoving() =
-        require(this == MOVING_UP.value || this == MOVING_DOWN.value) { "하나의 문자만 입력해 주세요." }
-
-    fun validateGameCommand(gameCommand: String) {
-        gameCommand.validateLength()
-        gameCommand[0].validateGameCommand()
-    }
-
-    private fun Char.validateGameCommand() =
-        require(this == GAME_COMMAND_RETRY.value || this == GAME_COMMAND_QUIT.value) { "하나의 문자만 입력해 주세요." }
+    fun validateGameCommand(gameCommand: String) =
+        require(gameCommand == GAME_COMMAND_RETRY.value || gameCommand == GAME_COMMAND_QUIT.value) {
+            "R과 Q 중 하나의 문자를 입력해 주세요."
+        }
 
     companion object {
         private val BRIDGE_RANGE = 3..20
